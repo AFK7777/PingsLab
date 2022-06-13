@@ -2,10 +2,11 @@ package com.PingsLab.Websites.Base;
 
 import com.PingsLab.ProductBase.Product;
 
-public abstract class Notifier {
+public interface Notifier {
 	
-	public abstract String getWebhook();
-	public void notify(Stage stage, Product prod) {
+	String getWebhook();
+	
+	default void notify(Stage stage, Product prod) {
 		
 	}
 	

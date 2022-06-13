@@ -16,7 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.PingsLab.ProductBase.Product;
-import com.PingsLab.ProductBase.Size;
+import com.PingsLab.ProductBase.Size; 
 
 public class Messanger {
 	
@@ -25,14 +25,14 @@ public class Messanger {
 		Product prod = new Product();
 		prod.url = "https://www.snipes.it/p/karl_kani-89_prm_-white%2Fbeige-00013802052500.html";
 		prod.name = "Luisa Via Roma 45";
-		prod.PID = "00013802052500";
+		prod.PID = "76I-G14007";
 		prod.thumbnail = "https://www.snipes.it/dw/image/v2/BDCB_PRD/on/demandware.static/-/Sites-snse-master-eu/default/dw61e86f49/2052500_P.jpg?sw=780&sh=780&sm=fit&sfrm=png";
-		prod.price = "99,99 €";
-		prod.SKU = "AZ313WF";
+		prod.price = "199,99 €";
+		//prod.SKU = "AZ313WF";
 		
 		prod.sizes = new ArrayList<Size>();
 		
-		for(float i = 40f; i < 43; i+= 0.5f) {
+		for(float i = 40f; i < 41.1; i+= 0.5f) {
 			Size s = new Size();
 			s.size = "" +i;
 			s.quantity = "" +(5 + new Random().nextInt(10));
@@ -77,16 +77,19 @@ public class Messanger {
 				values[i%values.length] +=  s.toString() + "\n";
 			}
 			for(int i = 0; i < values.length; i++) add(fields, i == 0 ? "Sizes" : "\u200b", values[i], true);
+			for(int i = values.length; i < 3; i++)
+				add(fields, "\u200b", "\u200b", true);
 		}
 		//Spacer
 		//add(fields, "\u200b", "\u200b", false);
-
+		
+		//int maxLength = max(prod.price, prod.PID, prod.SKU);
 		if(prod.price != null)
-			add(fields, "Price", "```" + prod.price + "```", false);
+			add(fields, "Price", "```" + (prod.price) + "```", true);
 		if(prod.PID != null)
-			add(fields, "PID",  "```" + prod.PID + "```", true);
+			add(fields, "PID",  "```" + (prod.PID) + "```", true);
 		if(prod.SKU != null)
-			add(fields, "SKU",  "```" + prod.SKU + "```", true);
+			add(fields, "SKU",  "```" + (prod.SKU) + "```", true);
 		
 		//add(fields, "\u200b", "\u200b", false);
 		add(fields, "Useful Links",  "[Login](https://www.stocazzo.it) | [Cart](https://www.stocazzo.it) | [Checkout](https://www.stocazzo.it)", false);

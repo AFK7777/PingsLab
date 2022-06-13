@@ -9,10 +9,11 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import com.PingsLab.Discord.Messanger;
+import com.PingsLab.Websites.LVR;
 
 public class Start {
-	
+	//GET /it-it/shop/uomo?lvrid=_gm&Page=3&SortType=NewIn&ajax=true
+	//https://www.luisaviaroma.com/it-it/shop/uomo/scarpe/sneakers?lvrid=_gm_i4_c97&FilterDes=210%2C247%2C140%2C4R8&PriceTo=399&SortType=NewIn
 	public static void disableSSL() throws Exception {
 		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
 			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -39,8 +40,12 @@ public class Start {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Messanger msg = new Messanger();
-		msg.sendMessage(null, 3123445);
+		
+		LVR lvr = new LVR();
+		lvr.scanBase();
+		
+		//Messanger msg = new Messanger();
+		//msg.sendMessage(null, 3123445);
 		//3123445
 	}
 	
