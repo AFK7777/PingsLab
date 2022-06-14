@@ -1,6 +1,7 @@
 package com.PingsLab.ProductBase;
 
 import java.util.List;
+import java.util.Map;
 
 public class Product {
 	public String PID = null;  //product ID
@@ -17,7 +18,24 @@ public class Product {
 	public List<String> store = null;  //country seller (by url)
 
 	public List<String> discounts;  //Tutti gli sconti
+	 
 	
-	public String type = null;  //drop/restock
 	
+	public Map<String, String> emojiLinks = null;
+	public String emojiLinksTitle = null;
+	
+	public Type notifyType = Type.NEW;
+	
+	enum Type{
+		NEW("New Product"),
+		RESTOCK("Restock");
+		String name;
+		Type(String enumName){
+			name = enumName;
+		}
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
 }

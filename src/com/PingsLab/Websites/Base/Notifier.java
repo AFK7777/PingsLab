@@ -1,13 +1,17 @@
 package com.PingsLab.Websites.Base;
 
+import java.util.LinkedHashMap;
+
+import com.PingsLab.Discord.Messanger;
 import com.PingsLab.ProductBase.Product;
 
 public interface Notifier {
+	static Messanger messanger = new Messanger();
 	
 	String getWebhook();
 	
-	default void notify(Stage stage, Product prod) {
-		
+	default void notify(Stage stage, Product prod, LinkedHashMap<String, String> map) {
+		messanger.sendMessage(prod, getWebhook(), map, null, stage.color);
 	}
 	
 	public static enum Stage{

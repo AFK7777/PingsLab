@@ -7,9 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
+import java.util.LinkedHashMap;
 import java.util.TimeZone;
 
 import org.json.JSONArray;
@@ -20,27 +19,7 @@ import com.PingsLab.ProductBase.Size;
 
 public class Messanger {
 	
-	public void sendMessage(String content, int color) {
-		
-		Product prod = new Product();
-		prod.url = "https://www.snipes.it/p/karl_kani-89_prm_-white%2Fbeige-00013802052500.html";
-		prod.name = "Luisa Via Roma 45";
-		prod.PID = "76I-G14007";
-		prod.thumbnail = "https://www.snipes.it/dw/image/v2/BDCB_PRD/on/demandware.static/-/Sites-snse-master-eu/default/dw61e86f49/2052500_P.jpg?sw=780&sh=780&sm=fit&sfrm=png";
-		prod.price = "199,99 €";
-		//prod.SKU = "AZ313WF";
-		
-		prod.sizes = new ArrayList<Size>();
-		
-		for(float i = 40f; i < 41.1; i+= 0.5f) {
-			Size s = new Size();
-			s.size = "" +i;
-			s.quantity = "" +(5 + new Random().nextInt(10));
-			s.ATC = "https://www.google.it";
-			prod.sizes.add(s);
-		}
-		
-		
+	public void sendMessage(Product prod, String webhook, LinkedHashMap<String, String> usefulLinks, String content, int color) {
 		
 		JSONObject msg = new JSONObject();
 		JSONObject embeds = new JSONObject();
@@ -92,32 +71,29 @@ public class Messanger {
 			add(fields, "SKU",  "```" + (prod.SKU) + "```", true);
 		
 		//add(fields, "\u200b", "\u200b", false);
-		add(fields, "Useful Links",  "[Login](https://www.stocazzo.it) | [Cart](https://www.stocazzo.it) | [Checkout](https://www.stocazzo.it)", false);
-		
-		
-//		add(fields, "", "33", true);
-//		add(fields, "", "34", true);
-//		add(fields, "", "35", true);
-//		add(fields, "", "36", true);
-//		
-		
+		if(usefulLinks != null) {
+			final StringBuilder links = new StringBuilder();
+			usefulLinks.forEach((k,v) -> {
+				links.append(" | [%s](%s)".formatted(k,v));
+			});
+			//[Login](https://www.stocazzo.it) | [Cart](https://www.stocazzo.it) | [Checkout](https://www.stocazzo.it)
+			add(fields, "Useful Links",  links.toString().substring(3), false);
+		}
 		embeds.put("fields", fields);
 		embeds.put("timestamp", nowAsISO);
 		 
 		msg.put("content", content);
 		msg.put("embeds", new JSONArray().put(embeds));
 		
-		
 		System.out.println(msg.toString());
-		
 		try {
-			send("https://discord.com/api/webhooks/984764138729398304/DsB2jTSrogcQ5VqF0FEpo_uK94ow_nymLeeYYK3H3dhgnhHY7C-1QM5C9HLbrGAsOX4Q?wait=true", "POST", msg);
+			send(webhook, "POST", msg);
 		} catch (Exception e) { 
 			e.printStackTrace();
 		}
 	}
 	
-	public void add(JSONArray array, String name, String value, Boolean b) {
+	private void add(JSONArray array, String name, String value, Boolean b) {
 		JSONObject job = new JSONObject().put("name", name).put("value", value);
 		if(b != null)
 			job.put("inline", b.booleanValue());
@@ -135,11 +111,10 @@ public class Messanger {
 		conn.connect();
 		StringBuilder sb = new StringBuilder();
 		
-		System.out.println("CODE:" + conn.getResponseCode());
-		conn.getHeaderFields().forEach((k,v) -> {
-			System.out.println(k + ": " + v);
-		});
-		
+//		System.out.println("CODE:" + conn.getResponseCode());
+//		conn.getHeaderFields().forEach((k,v) -> {
+//			System.out.println(k + ": " + v);
+//		});		
 		if(conn.getResponseCode() == 204) return null;
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getResponseCode() < 400 ? conn.getInputStream() : conn.getErrorStream()));

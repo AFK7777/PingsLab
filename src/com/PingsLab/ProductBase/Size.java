@@ -6,6 +6,9 @@ public class Size{
 	public String PID = null;
 	public String ATC = null;  //AddToCart link for this size number
 	
+	
+	public Size() {}
+	public Size(String size) {this.size = size;}
 	public String toString() {
 		String r = size;
 		
